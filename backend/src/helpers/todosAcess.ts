@@ -15,17 +15,19 @@ const logger = createLogger('TodosAccess')
     const docClient: DocumentClient = createDynamoDBClient()
     const todosTable = process.env.TODOS_TABLE
     const todoTableIndex = process.env.TODOITEM_TABLE_INDEX
+    const s3BucketName = process.env.S3_BUCKET_NAME;
+
 // TODO: Implement the dataLayer logic
 
 export async function createToDo (todo: TodoItem): Promise<TodoItem> {
 
    
     logger.info("Creating new todo item:", todo);
-
-    
+    const attachment =  `https://${s3BucketName}.s3.amazonaws.com/${todo.todoId}`
+    const addtodo = {attachmentUrl : attachment, ...todo}
     await docClient.put({
       TableName: todosTable,
-      Item: todo
+      Item: addtodo
     }).promise()
 
     logger.info("Create complete.")
