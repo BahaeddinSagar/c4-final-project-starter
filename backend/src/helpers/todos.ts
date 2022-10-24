@@ -10,6 +10,7 @@ import { getUserId } from '../lambda/utils';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
 // TODO: Implement businessLogic
+const s3BucketName = process.env.ATTACHMENT_S3_BUCKET;
 
 export function todoBuilder(newTodo: CreateTodoRequest, event: APIGatewayProxyEvent ){
 
@@ -20,7 +21,7 @@ export function todoBuilder(newTodo: CreateTodoRequest, event: APIGatewayProxyEv
       userId: userId,
       createdAt: new Date().toISOString(),
       done: false,
-      attachmentUrl: "http://example.com/image.png",
+      attachmentUrl: `https://${s3BucketName}.s3.amazonaws.com/${todoId}`,
       ...newTodo
     }
 

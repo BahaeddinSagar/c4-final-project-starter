@@ -15,7 +15,6 @@ const logger = createLogger('TodosAccess')
     const docClient: DocumentClient = createDynamoDBClient()
     const todosTable = process.env.TODOS_TABLE
     const todoTableIndex = process.env.TODOITEM_TABLE_INDEX
-    const s3BucketName = process.env.S3_BUCKET_NAME;
 
 // TODO: Implement the dataLayer logic
 
@@ -23,11 +22,9 @@ export async function createToDo (todo: TodoItem): Promise<TodoItem> {
 
    
     logger.info("Creating new todo item:", todo);
-    const attachment =  `https://${s3BucketName}.s3.amazonaws.com/${todo.todoId}`
-    const addtodo = {attachmentUrl : attachment, ...todo}
-    await docClient.put({
+     await docClient.put({
       TableName: todosTable,
-      Item: addtodo
+      Item: todo
     }).promise()
 
     logger.info("Create complete.")
@@ -59,27 +56,28 @@ export async function getAlltodos(userid: string): Promise<TodoItem[]> {
 }
 
 export async function deleteToDo (todoId: string, userId: string): Promise<string> {
-  
+  logger.info(userId)
+
   const params = {
-    TableName: this.todoTable,
+    TableName: todosTable,
     Key: {
-        "userId": userId,
+//        "userId": userId,
         "todoId": todoId
     },
 };
 
-const result = await this.docClient.delete(params).promise();
+const result = await docClient.delete(params).promise();
 logger.info(result)
-return result.statusCode 
+return "" 
 
 }
 
 export async function updateTodo(updatedTodo:TodoUpdate, todoId : string, userId:string) : Promise<TodoUpdate> {
-  
+  logger.info(userId)
   const params = {
-    TableName: this.todoTable,
+    TableName: todosTable,
     Key: {
-        "userId": userId,
+ //       "userId": userId,
         "todoId": todoId
     },
     UpdateExpression: "set #a = :a, #b = :b, #c = :c",
@@ -95,7 +93,7 @@ export async function updateTodo(updatedTodo:TodoUpdate, todoId : string, userId
     },
     ReturnValues: "ALL_NEW"
 };
-    const result = await this.docClient.update(params).promise();
+    const result = await docClient.update(params).promise();
         console.log(result);
         const attributes = result.Attributes;
 

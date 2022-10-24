@@ -7,7 +7,7 @@ const XAWS = AWSXRay.captureAWS(AWS)
 // TODO: Implement the fileStogare logic
 
 const s3Client: Types = new XAWS.S3({ signatureVersion: 'v4' })
-const s3BucketName = process.env.ATTACHMENT_S3_BUCKET_NAME
+const s3BucketName = process.env.ATTACHMENT_S3_BUCKET
 export async function generateUploadUrl(todoId: string): Promise<string> {
     console.log("Generating URL");
 
@@ -20,3 +20,4 @@ export async function generateUploadUrl(todoId: string): Promise<string> {
 
     return url as string;
 }
+

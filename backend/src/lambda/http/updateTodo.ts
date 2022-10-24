@@ -7,7 +7,7 @@ import { cors, httpErrorHandler } from 'middy/middlewares'
 //import { updateTodo } from '../../businessLogic/todos'
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
 import { getUserId } from '../utils'
-import { updateTodo } from '../../helpers/todosAcess'
+import { updateTodo } from '../../datalayer/todosAcess'
 // import { getUserId } from '../utils'
 //import { Console } from 'console'
 

@@ -4,7 +4,7 @@ import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
 import { CreateTodoRequest } from '../../requests/CreateTodoRequest'
 import { todoBuilder } from '../../helpers/todos'
-import { createToDo } from '../../helpers/todosAcess'
+import { createToDo } from '../../datalayer/todosAcess'
 
 
 
